@@ -1,3 +1,4 @@
+//This is all that's needed to connect to the database
 const Pool = require("pg").Pool;
 
 const pool = new Pool({

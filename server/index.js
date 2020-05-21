@@ -4,21 +4,22 @@ const cors = require('cors');
 const pool = require('./db');//connect to the db
 
 //middleware
-app.use(cors());
-app.use(express.json());//gives access to request.body
+app.use(cors());//allows different domain applications to interact with each other
+app.use(express.json());//gives access to req.body
 
 //ROUTES
+
 //create a todo
 app.post('/todos', async(req, res) => {
   try {
     console.log(req.body);
     const { description } = req.body;
-    const newTodo = await pool.query("INSERT INTO todo () (description) VALUES($1) RETURNING *", [description]
-    );
+    const newTodo = await pool.query("INSERT INTO todo (description) VALUES($1) RETURNING *", [description]);
     //insert Value 1 (which is description) into todo table in the description column
     //RETURNING * returns back the data in the database
+    
     res.json(newTodo.rows[0]);
-    res.json(newTodo);
+//    res.json(newTodo);
 
   } catch (err) {
     console.error(err.message);
@@ -35,8 +36,18 @@ app.get('/todos', async(req, res) => {
     console.error(message);
   }
 });
+
 //get a todo
-//
+//STILL IN PROGRESS
+app.get('/todo', async(req, res) => {
+  try {
+    const todo = await pool.query("SELECT ");//select todo ID from table
+  }
+  catch(err) {
+    console.error(err.message)
+  }
+});
+
 //update a todo
 
 app.listen(5000, () => {
