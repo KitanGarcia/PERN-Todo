@@ -57,14 +57,24 @@ app.get('/todos/:id', async(req, res) => {
 //update a todo
 app.put('/todos/:id', async(req, res) => {
   try {
-    //console.log(req.params); //will log what client sends as ID
-    //for above, use http://localhost:5000/todos/{id#} on clientside to observe
-
     const {id} = req.params;
     const {description} = req.body;
     const updateTodo = await pool.query("UPDATE todo SET description = $1 WHERE todo_id = $2", [description, id]); //Update a todo description based on todo_id
 
     res.json("Todo " + id + " has been updated with: " + description);
+  }
+  catch(err) {
+    console.error(err.message)
+  }
+});
+
+//delete a todo
+app.delete('/todos/:id', async(req, res) => {
+  try {
+    const {id} = req.params;
+    const deleteTodo = await pool.query("DELETE FROM todo WHERE todo_id = $1", [id]); //Delete a todo based on todo_id
+
+    res.json("Todo with id " + id + " has been deleted")
   }
   catch(err) {
     console.error(err.message)
