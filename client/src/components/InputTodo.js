@@ -1,7 +1,10 @@
 import React, {Fragment, useState} from "react";
 
+//This component will handle entering a todo item and posting it to the backend.
+
 const InputTodo = () => {
-  const [description, setDescription] = useState(""); //description is "" which is used in form
+  const [description, setDescription] = useState(""); // react hook. Declare state variable description initialized to an empty string
+  //useState() always returns an array with the first variable being the initialized value specified and the 2nd one being the function to REPLACE (not necessarily update) it
 
   const onSubmitForm = async e => {
     e.preventDefault();
@@ -15,6 +18,8 @@ const InputTodo = () => {
       //server is running on port 5000
 
       console.log(response);
+
+      window.location = "/"; //once the response is sent, the page will refresh and show the change
     }
     catch (err) {
       console.error(err.message);
