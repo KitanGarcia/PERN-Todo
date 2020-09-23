@@ -1,5 +1,7 @@
 import React, {Fragment, useEffect, useState} from "react";
 
+import EditTodo from "./EditTodo.js";
+
 //This component will handle listing todo items retrieved from the backend
 
 const ListTodos = () => {
@@ -71,9 +73,7 @@ const ListTodos = () => {
           <td>{todo.todo_id}</td>
           <td>{todo.description}</td>
           <td>
-            <button className="btn">
-              Edit
-            </button>
+              <EditTodo todo = {todo}/>
           </td>
           <td>
             <button className="btn btn-danger" onClick={() => deleteTodo(todo.todo_id)}>

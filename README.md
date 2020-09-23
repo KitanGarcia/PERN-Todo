@@ -1,5 +1,8 @@
 This project will be an implementation of a Todo List application using the PERN stack (Postgres, Express, React, Node). More to follow!
 
+To run the server, use ```nodemon server/index.js```
+To run the client, use ```npm start``` while in the client folder
+
 To launch postgres as superadmin (user called postgres), use:
 ```
 psql -U postgres

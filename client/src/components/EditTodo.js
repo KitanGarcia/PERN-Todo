@@ -1,28 +1,59 @@
-import React, {Fragment, useEffect, useState} from "react";
+import React, {Fragment, useState} from "react";
 
-//This component will handle editing or deleting a todo item
+//This component will handle editing a todo item
 
-const EditTodo = () => {
-  const [description, setDescription] = useState(""); // react hook. Declare state variable description initialized to an empty string
-  //useState() always returns an array with the first variable being the initialized value specified and the 2nd one being the function to REPLACE (not necessarily update) it
+const EditTodo = ({todo}) => {
+  //todo is passed in as a prop from ListTodos.js. Destructured above
 
-  const deleteTodo = async e => {
+  const [description, setDescription] = useState(todo.description); //set to description by default
+
+  //update description
+  const updateDescription = async e => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:5000/todos/:id", {
-        method: "DELETE",
+      const body = { description };
+      console.log(todo);
+      const editResponse = await fetch(`http://localhost:5000/todos/${todo.todo_id}`, {
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
       });
-      //server is running on port 5000
+      console.log(editResponse);
 
-      console.log(response);
-
-      window.location = "/"; //once the response is sent, the page will refresh and show the change
+      window.location = "/"; //refresh to show updated description
     }
     catch (err) {
       console.error(err.message);
     }
   }
+
+  return (
+    <Fragment>
+      <button type="button" className="btn btn-primary" data-toggle="modal" data-target={`#id${todo.todo_id}`}>
+        Edit
+      </button>
+
+      <div className="modal" id={`id${todo.todo_id}`} onClick={() => setDescription(todo.description)}>
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h4 className="modal-title">Edit Todo</h4>
+            </div>
+
+            <div className="modal-body">
+              <input type="text" value={description} onChange={e => setDescription(e.target.value)}></input>
+            </div>
+
+            <div className="modal-footer">
+              <button type="button" className="btn btn-success" data-dismiss="modal" onClick={e => updateDescription(e)}>Update</button>
+              <button type="button" className="btn btn-danger" data-dismiss="modal" onClick={() => setDescription(description)}>Cancel</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </Fragment>
+  );
 }
 
 export default EditTodo;
